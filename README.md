@@ -25,18 +25,26 @@ Test the C Program for the desired output.
 
 ## C Program to print process ID and parent Process ID using Linux API system calls
 
+~~~
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+int main(void)
+{	//variable to store calling function's process id
+	pid_t process_id;
+	//variable to store parent function's process id
+	pid_t p_process_id;
+	//getpid() - will return process id of calling function
+	process_id = getpid();
+	//getppid() - will return process id of parent function
+	p_process_id = getppid();
+	//printing the process ids
 
-
-
-
-
-
-
-
-
-
-
-
+//printing the process ids
+	printf("The process id: %d\n",process_id);
+	printf("The process id of parent function: %d\n",p_process_id);
+	return 0; }
+~~~
 
 
 
@@ -48,6 +56,7 @@ Test the C Program for the desired output.
 
 
 
+![362156849-1cf6d53a-babc-4140-99ed-609d57269480](https://github.com/user-attachments/assets/d9bb4642-414f-47d3-8944-f20bf485760d)
 
 
 
@@ -61,7 +70,25 @@ Test the C Program for the desired output.
 
 
 
+~~~
 
+#include <stdio.h>
+#include<stdlib.h>
+int main(){
+   int pid; 
+   pid=fork(); 
+   if(pid == 0) {
+        printf("Iam child my pid is %d\n",getpid());   
+        printf("My parent pid is:%d\n",getppid()); 
+        exit(0);
+ } 
+   else{ 
+        printf("I am parent, my pid is %d\n",getpid()); 
+        sleep(100); 
+        exit(0);
+} 
+
+~~~
 
 
 
@@ -72,6 +99,7 @@ Test the C Program for the desired output.
 ##OUTPUT
 
 
+![362157041-3851d795-ff9d-4228-aa20-66b8fa191394](https://github.com/user-attachments/assets/00d0a84f-fa94-4fe4-a837-144cef7d0dfa)
 
 
 
@@ -88,14 +116,41 @@ Test the C Program for the desired output.
 
 
 
+~~~
 
 
 
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+int main() {
+    pid_t pid = fork();
+    if (pid < 0) {
+        perror("Fork failed");
+        exit(EXIT_FAILURE);
+    } else if (pid == 0) {
+        printf("This is the child process. Executing 'ls' command.\n");
+        execl("/bin/ls", "ls", "-l", NULL); // Lists files in long format
+        perror("execl failed");
+        exit(EXIT_FAILURE);
+    } else {
+        int status;
+        waitpid(pid, &status, 0); // Wait for the child to finish
+        if (WIFEXITED(status)) {
+            printf("Child process exited with status %d.\n", WEXITSTATUS(status));
+        } else {
+            printf("Child process did not exit normally.\n");
+        }
+        printf("Parent process is done.\n");
+    }
+    return 0;
+}
 
 
-
-
+~~~
 
 
 
@@ -113,7 +168,7 @@ Test the C Program for the desired output.
 
 
 
-
+![362157217-6e8e9a80-a36d-4deb-98b1-5fcb0688c13e](https://github.com/user-attachments/assets/ad7e2e6d-c084-40a1-87b8-235ef4ea8b23)
 
 
 
